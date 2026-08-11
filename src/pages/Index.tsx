@@ -14,7 +14,7 @@ import { withTracking } from '@/lib/tracking';
 
 import surfCampLogo from '@/assets/surf-camp-logo.png';
 
-import heroPhoto from '@/assets/photos/hero.jpg';
+import heroPhotoAsset from '@/assets/photos/hero.jpg.asset.json';
 import breakJackingHorse from '@/assets/photos/break-jacking-horse.jpg';
 import breakCemetery from '@/assets/photos/break-cemetery.jpg';
 import breakTuason from '@/assets/photos/break-tuason.jpg';
@@ -219,7 +219,7 @@ export default function Index() {
       {/* ═══════════════════ HERO ═══════════════════ */}
       <section className="halftone-frame grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
         <Photo
-          src={heroPhoto}
+          src={heroPhotoAsset.url}
           brief="Surfer sitting on their board in green-glass water, sun path behind"
           tone="sea"
           loading="eager"
