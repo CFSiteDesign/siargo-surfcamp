@@ -82,18 +82,23 @@ Deno.serve(async (req) => {
   }
 });
 
+const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
+const FROM = "Mad Monkey Siargao <bookings@siargo.surfcamp.madmonkeyhostels.com>";
+const REPLY_TO = "cs@madmonkeyhostels.co";
+
 // deno-lint-ignore no-explicit-any
 async function sendConfirmationEmail(booking: any): Promise<boolean> {
-  const apiKey = Deno.env.get("RESEND_API_KEY");
-  const from = Deno.env.get("BOOKING_EMAIL_FROM") ?? "Mad Monkey <onboarding@resend.dev>";
-  if (!apiKey) {
-    console.log("RESEND_API_KEY not set — skipping confirmation email for booking", booking.id);
+  const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+  const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  if (!lovableApiKey || !resendApiKey) {
+    console.error("Resend connector env vars missing — skipping email for booking", booking.id);
     return false;
   }
 
   const amount = booking.amount_total
     ? `${(booking.amount_total / 100).toFixed(2)} ${String(booking.currency).toUpperCase()}`
     : "";
+
 
   const html = `
     <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;color:#111">
@@ -110,23 +115,29 @@ async function sendConfirmationEmail(booking: any): Promise<boolean> {
       <p>See you in Siargao!</p>
     </div>`;
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const res = await fetch(`${GATEWAY_URL}/emails`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${lovableApiKey}`,
+      "X-Connection-Api-Key": resendApiKey,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      from,
+      from: FROM,
       to: [booking.guest_email],
+      reply_to: REPLY_TO,
       subject: "Booking confirmed — Siargao Surf Camp",
       html,
     }),
   });
 
   if (!res.ok) {
-    console.error("Resend error", res.status, await res.text());
+    console.error("Resend gateway error", res.status, await res.text());
     return false;
   }
   return true;
 }
+
 
 function escapeHtml(s: string) {
   return String(s).replace(/[&<>"']/g, (c) =>
