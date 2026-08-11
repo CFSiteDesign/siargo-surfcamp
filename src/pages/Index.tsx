@@ -559,13 +559,12 @@ export default function Index() {
               Camps run year round. Grab your dates and we'll sort the rest.
             </p>
             <a
-              href={withTracking(BOOK_URLS['7'])}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#packages"
               className="poster-shadow mt-8 inline-block rounded-full border-2 border-ink bg-lilac px-7 py-4 font-display text-[13px] uppercase tracking-[0.12em] text-ink transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:mt-9 sm:px-9 sm:text-sm md:text-base"
             >
               Check Dates &amp; Pricing
             </a>
+
           </Reveal>
         </div>
       </section>
