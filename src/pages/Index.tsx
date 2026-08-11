@@ -224,19 +224,19 @@ export default function Index() {
           tone="sea"
           loading="eager"
           hideLabel
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 h-full w-full object-[42%_center] sm:object-[30%_center] md:object-[20%_center] lg:scale-[1.08]"
         />
 
         {/* Light scrim to settle the photograph, then a loose frame of the
             generated smoke elements hugging the edges, centre left open. */}
         <div className="absolute inset-0 bg-ink/25" />
         {/* Mirrored pairs, same size and offset each side, per Charlie. */}
-        <Floater name="smokeRun" className="absolute left-[3%] top-[8%] w-52 animate-drift-slow sm:w-64 md:w-80" />
-        <Floater name="smokeRun" flip className="absolute right-[3%] top-[8%] hidden w-52 animate-drift-slow sm:block sm:w-64 md:w-80" />
-        <Floater name="smokeCorner" className="absolute left-[3%] top-[42%] w-20 animate-drift sm:w-28 md:w-36" />
-        <Floater name="smokeCorner" flip className="absolute right-[3%] top-[42%] hidden w-20 animate-drift sm:block sm:w-28 md:w-36" />
-        <Floater name="smokeRun" flip className="absolute left-[3%] bottom-[6%] w-44 animate-drift sm:w-56 md:w-72" />
-        <Floater name="smokeRun" className="absolute right-[3%] bottom-[6%] hidden w-44 animate-drift sm:block sm:w-56 md:w-72" />
+        <Floater name="smokeRun" className="absolute left-[3%] top-[8%] w-52 animate-drift-slow sm:w-64 lg:w-80" />
+        <Floater name="smokeRun" flip className="absolute right-[3%] top-[8%] hidden w-52 animate-drift-slow sm:block sm:w-64 lg:w-80" />
+        <Floater name="smokeCorner" className="absolute left-[3%] top-[42%] w-20 animate-drift sm:w-28 lg:w-36" />
+        <Floater name="smokeCorner" flip className="absolute right-[3%] top-[42%] hidden w-20 animate-drift sm:block sm:w-28 lg:w-36" />
+        <Floater name="smokeRun" flip className="absolute left-[3%] bottom-[6%] w-44 animate-drift sm:w-56 lg:w-72" />
+        <Floater name="smokeRun" className="absolute right-[3%] bottom-[6%] hidden w-44 animate-drift sm:block sm:w-56 lg:w-72" />
 
         <div className="relative z-20 mx-auto w-full max-w-4xl px-5 py-20 text-center sm:py-24">
           <Reveal>
@@ -449,7 +449,7 @@ export default function Index() {
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-2 gap-3.5 sm:gap-5 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-4">
             {GOOD_VIBES.map((v, i) => (
               <Reveal as="article" key={v.name} delay={i * 80} className="group relative aspect-[3/4] overflow-hidden rounded-2xl">
                 <Photo
@@ -476,7 +476,7 @@ export default function Index() {
       <section id="is-this-for-me" className="relative overflow-hidden bg-lilac/35 py-16 sm:py-20 md:py-28">
         <Floater name="smokeRun" flip className="absolute right-[3%] top-10 hidden w-56 animate-drift sm:block md:w-72" />
         <div className="relative mx-auto max-w-6xl px-5">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+          <div className="grid gap-10 md:grid-cols-[1fr_1.15fr] md:gap-12 lg:gap-16">
             <Reveal>
               <Eyebrow>Is this for me?</Eyebrow>
               <h2 className="bubble-type font-groovy text-[2rem] leading-[1.05] sm:text-4xl md:text-5xl">Short answer: yes</h2>
@@ -577,7 +577,7 @@ export default function Index() {
           price and the booking link stay within thumb reach once the hero has
           scrolled away. Desktop keeps the in-page CTAs instead. */}
       <div
-        className={`pb-safe fixed inset-x-0 bottom-0 z-50 border-t-2 border-ink bg-cream px-4 pt-3 transition-transform duration-300 ease-out lg:hidden ${
+        className={`pb-safe fixed inset-x-0 bottom-0 z-50 border-t-2 border-ink bg-cream px-4 pt-3 transition-transform duration-300 ease-out md:hidden ${
           showBar ? 'translate-y-0' : 'translate-y-full'
         }`}
       >

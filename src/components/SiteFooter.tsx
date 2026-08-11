@@ -141,7 +141,7 @@ export default function SiteFooter() {
       </div>
 
       {/* Spacer for mobile bottom nav */}
-      <div className="h-14 lg:hidden" />
+      <div className="h-14 md:hidden" />
     </footer>
   );
 }
