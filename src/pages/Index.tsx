@@ -219,7 +219,7 @@ export default function Index() {
       {/* ═══════════════════ HERO ═══════════════════ */}
       <section className="halftone-frame grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
         <Photo
-          src={heroPhoto}
+          src={heroPhotoAsset.url}
           brief="Surfer sitting on their board in green-glass water, sun path behind"
           tone="sea"
           loading="eager"
