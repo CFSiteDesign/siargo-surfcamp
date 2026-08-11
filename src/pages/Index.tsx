@@ -5,7 +5,7 @@ import SiteFooter from '@/components/SiteFooter';
 import Photo from '@/components/Photo';
 import Reveal from '@/components/Reveal';
 import Marquee from '@/components/Marquee';
-import { FloatingBand, WaveDivider, Squiggle, Blob, SmokeFrame, SmokeRun, SmokeCorner } from '@/components/Deco';
+import { FloatingBand, WaveDivider, Squiggle, Blob, SmokeRun, SmokeCorner } from '@/components/Deco';
 import {
   IconSwell, IconBolt, IconSun, IconLeaf, IconHeart, IconArrow,
   IconBoard, IconVan, IconCheers, IconSparkle, IconTick,
@@ -13,6 +13,7 @@ import {
 import { withTracking } from '@/lib/tracking';
 
 import surfCampLogo from '@/assets/surf-camp-logo.png';
+import smokeFrame from '@/assets/smoke-frame.png';
 
 /**
  * Booking destinations on the main site.
@@ -210,10 +211,18 @@ export default function Index() {
           className="absolute inset-0 h-full w-full"
         />
 
-        {/* Light scrim to settle the photograph, then the lilac smoke frame
-            hugging the edges with the middle open, exactly as on the poster. */}
+        {/* Light scrim to settle the photograph, then the supplied poster
+            squiggle (Surf Camp Squiggle.png) encasing the hero — the artwork
+            carries its own soft shadow, so no CSS shadow on top. Stretched to
+            the section like the poster stretches it around its photo. */}
         <div className="absolute inset-0 bg-ink/25" />
-        <SmokeFrame className="absolute inset-0 h-full w-full text-lilac" />
+        <img
+          src={smokeFrame}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="pointer-events-none absolute inset-0 h-full w-full select-none object-fill"
+        />
 
         <div className="relative z-20 mx-auto w-full max-w-4xl px-5 py-20 text-center sm:py-24">
           <Reveal>
