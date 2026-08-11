@@ -10,7 +10,7 @@ import {
   IconSwell, IconBolt, IconSun, IconLeaf, IconHeart, IconArrow,
   IconSparkle, IconTick,
 } from '@/components/Icons';
-import { withTracking } from '@/lib/tracking';
+import BookingDialog from '@/components/BookingDialog';
 
 import surfCampLogo from '@/assets/surf-camp-logo.png';
 
@@ -28,18 +28,6 @@ import digsFacilities from '@/assets/photos/digs-facilities.jpg';
 import digsFood from '@/assets/photos/digs-food.jpg';
 
 /**
- * Booking destinations on the main site.
- *
- * TODO(charlie): confirm these slugs — the brief doesn't name them. Modelled on
- * the Kuta Lombok camp, which uses /tours-events/surf-camp and
- * /tours-events/surf-camp-4-day. Campaign params are forwarded by withTracking.
- */
-const BOOK_URLS = {
-  '7': 'https://madmonkeyhostels.com/tours-events/siargao-surf-camp',
-  '4': 'https://madmonkeyhostels.com/tours-events/siargao-surf-camp-4-day',
-} as const;
-
-/**
  * Prices are the GM's listing prices, confirmed by Lexie 2026-08-11. PHP is the
  * fixed cost and leads; the USD figure is approximate and labelled as such.
  */
@@ -50,6 +38,7 @@ const PACKAGES = [
     level: 'Level 1 - 3',
     name: '7 Days / 6 Nights',
     price: '₱48,000',
+    amount: 4_800_000,
     usd: 'approx. $790 USD',
     per: 'per person',
     pitch: 'The full island run. Longest water time, the Pacifico trip, and every night sorted.',
@@ -76,6 +65,7 @@ const PACKAGES = [
     level: 'Level 1 - 3',
     name: '4 Days / 3 Nights',
     price: '₱28,000',
+    amount: 2_800_000,
     usd: 'approx. $460 USD',
     per: 'per person',
     pitch: 'Short stay, same standard. Enough water time to stand up and stay up.',
@@ -386,14 +376,13 @@ export default function Index() {
 
                   <p className="mt-4 text-sm leading-relaxed text-ink/80 sm:mt-5">{pkg.pitch}</p>
 
-                  <a
-                    href={withTracking(BOOK_URLS[pkg.id])}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-6 block rounded-full border-2 border-ink bg-lilac py-4 text-center font-display text-[13px] uppercase tracking-[0.12em] text-ink transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:mt-7 sm:text-sm"
+                  <BookingDialog
+                    packageName={`Siargao Surf Camp — ${pkg.name}`}
+                    amount={pkg.amount}
+                    className="mt-6 block w-full rounded-full border-2 border-ink bg-lilac py-4 text-center font-display text-[13px] uppercase tracking-[0.12em] text-ink transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:mt-7 sm:text-sm"
                   >
                     Book this trip
-                  </a>
+                  </BookingDialog>
 
                   <div className="mt-7">
                     <p className="font-display text-[11px] uppercase tracking-[0.16em] sm:text-xs">Unique for this package</p>
@@ -591,14 +580,13 @@ export default function Index() {
           >
             See packages
           </a>
-          <a
-            href={withTracking(BOOK_URLS['7'])}
-            target="_blank"
-            rel="noopener noreferrer"
+          <BookingDialog
+            packageName={`Siargao Surf Camp — ${PACKAGES[0].name}`}
+            amount={PACKAGES[0].amount}
             className="shrink-0 rounded-full border-2 border-ink bg-lilac-deep px-5 py-3 font-display text-[12px] uppercase tracking-[0.1em] text-cream"
           >
             Book
-          </a>
+          </BookingDialog>
         </div>
       </div>
     </div>
