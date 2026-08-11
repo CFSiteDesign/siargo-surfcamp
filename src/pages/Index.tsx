@@ -14,8 +14,7 @@ import { withTracking } from '@/lib/tracking';
 
 import surfCampLogo from '@/assets/surf-camp-logo.png';
 
-import heroPhoto from '@/assets/photos/hero.jpg';
-import heroDesktopPhoto from '@/assets/photos/hero-desktop.jpg.asset.json';
+import heroPhoto from '@/assets/photos/hero.jpg.asset.json';
 import breakJackingHorse from '@/assets/photos/break-jacking-horse.jpg';
 import breakCemetery from '@/assets/photos/break-cemetery.jpg';
 import breakTuason from '@/assets/photos/break-tuason.jpg';
