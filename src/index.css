@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,6 +9,14 @@
    the construction. Self-hosted, so there is no third-party font request and
    nothing to go missing. Liquid is the poster face; Block is its calmer sibling
    for section headings. */
+@font-face {
+  font-family: 'Siargo Bubble';
+  src: url('./assets/fonts/SiargoBubble-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: 'Siargao Liquid';
   src: url('./assets/fonts/SiargaoLiquid.woff') format('woff'),
@@ -107,6 +115,12 @@
   .font-groovy {
     font-weight: 400;
   }
+
+  /* Siargo Bubble Outline is caps-only — transform so lowercase copy never
+     falls through to the fallback face mid-word. */
+  .font-groovy {
+    text-transform: uppercase;
+  }
 }
 
 @layer components {
@@ -159,10 +173,11 @@
      drop below. paint-order keeps the keyline outside the fill so the fine
      stroke doesn't eat the letterform. */
   .bubble-type {
+    /* Siargo Bubble fill in lilac, cream keyline, soft drop. */
     color: hsl(var(--lilac));
-    -webkit-text-stroke: 2.5px hsl(var(--cream));
+    -webkit-text-stroke: 0.045em hsl(var(--cream));
     paint-order: stroke fill;
-    text-shadow: 0.045em 0.06em 0.035em hsl(var(--ink) / 0.38);
+    text-shadow: 0.05em 0.065em 0.04em hsl(var(--ink) / 0.35);
   }
 
   /* Halftone dot border, fading inward from every edge like the poster's

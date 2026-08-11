@@ -1,3 +1,11 @@
+import elWave from '@/assets/elements/wave.png';
+import elSurfboard from '@/assets/elements/surfboard.png';
+import elSun from '@/assets/elements/sun.png';
+import elHibiscus from '@/assets/elements/hibiscus.png';
+import elPalm from '@/assets/elements/palm.png';
+import elSmokeRun from '@/assets/elements/smoke-run.png';
+import elSmokeCorner from '@/assets/elements/smoke-corner.png';
+
 /**
  * Decorative SVG kit for the poster look.
  *
@@ -149,6 +157,53 @@ export function SmokeFrame({ className = '' }: { className?: string }) {
   );
 }
 
+
+/* ── Generated poster elements ──────────────────────────────────────────────
+   Charlie's generated artwork (sliced from the icon sheet, 2026-08-11), used
+   for every floating decoration. Shadows are baked into the PNGs, so no CSS
+   shadow on top. */
+
+export const ELEMENTS = {
+  wave: elWave,
+  surfboard: elSurfboard,
+  sun: elSun,
+  hibiscus: elHibiscus,
+  palm: elPalm,
+  smokeRun: elSmokeRun,
+  smokeCorner: elSmokeCorner,
+} as const;
+
+export function Floater({
+  name,
+  className = '',
+  rotate,
+  flip = false,
+}: {
+  name: keyof typeof ELEMENTS;
+  className?: string;
+  /** Works with the drift keyframes via --drift-rot, like the SVG shapes. */
+  rotate?: number;
+  flip?: boolean;
+}) {
+  const transforms = [rotate !== undefined ? `rotate(${rotate}deg)` : '', flip ? 'scaleX(-1)' : '']
+    .filter(Boolean)
+    .join(' ');
+  return (
+    <img
+      src={ELEMENTS[name]}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className={`pointer-events-none select-none ${className}`}
+      style={
+        transforms
+          ? ({ ['--drift-rot' as string]: rotate !== undefined ? `${rotate}deg` : '0deg', transform: transforms } as React.CSSProperties)
+          : undefined
+      }
+    />
+  );
+}
+
 /* ── Small floating shapes ─────────────────────────────────────────────── */
 
 export function Blob({ className = '', rotate }: ShapeProps) {
@@ -238,28 +293,31 @@ export function WaveDivider({ className = '', fill = 'hsl(var(--cream))', flip =
  * over the boundary without affecting layout.
  */
 export function FloatingBand({ variant = 'a' }: { variant?: 'a' | 'b' | 'c' }) {
-  // All three variants are lilac smoke now — the poster's one-colour rule.
-  // Differences are placement and mirroring only, so no two gaps read alike.
+  // Generated artwork floats between sections; placement varies per gap so no
+  // two read alike.
   if (variant === 'a') {
     return (
-      <div className="pointer-events-none absolute inset-0 overflow-x-clip text-lilac" aria-hidden="true">
-        <SmokeRun className="absolute -left-8 -top-2 w-72 animate-drift md:w-96" />
-        <SmokeCorner className="absolute right-[4%] -top-4 w-24 animate-drift-slow md:w-32" rotate={180} />
+      <div className="pointer-events-none absolute inset-0 overflow-x-clip" aria-hidden="true">
+        <Floater name="wave" className="absolute left-[4%] -top-4 w-24 animate-drift md:w-32" rotate={-6} />
+        <Floater name="sun" className="absolute right-[30%] -top-2 w-14 animate-spin-slow md:w-20" />
+        <Floater name="surfboard" className="absolute right-[8%] -top-6 w-10 animate-drift-slow md:w-14" rotate={22} />
       </div>
     );
   }
   if (variant === 'b') {
     return (
-      <div className="pointer-events-none absolute inset-0 overflow-x-clip text-lilac" aria-hidden="true">
-        <SmokeRun flip className="absolute -right-10 top-0 w-80 animate-drift-slow md:w-[26rem]" />
-        <SmokeCorner className="absolute left-[6%] -top-2 w-20 animate-drift md:w-28" rotate={90} />
+      <div className="pointer-events-none absolute inset-0 overflow-x-clip" aria-hidden="true">
+        <Floater name="hibiscus" className="absolute left-[8%] -top-3 w-16 animate-drift-slow md:w-24" rotate={-14} />
+        <Floater name="smokeRun" className="absolute right-[2%] top-1 w-56 animate-drift md:w-72" flip />
+        <Floater name="wave" className="absolute left-[44%] -top-1 w-16 animate-drift md:w-24" rotate={6} flip />
       </div>
     );
   }
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-x-clip text-lilac" aria-hidden="true">
-      <SmokeRun className="absolute left-[14%] -top-3 w-72 animate-drift-slow md:w-96" />
-      <SmokeCorner className="absolute right-[10%] top-1 w-20 animate-drift md:w-24" rotate={270} />
+    <div className="pointer-events-none absolute inset-0 overflow-x-clip" aria-hidden="true">
+      <Floater name="palm" className="absolute left-[6%] -top-4 w-20 animate-drift md:w-28" rotate={-8} />
+      <Floater name="surfboard" className="absolute left-[50%] -top-5 w-9 animate-drift-slow md:w-12" rotate={-16} />
+      <Floater name="hibiscus" className="absolute right-[10%] -top-2 w-14 animate-drift md:w-20" rotate={18} flip />
     </div>
   );
 }

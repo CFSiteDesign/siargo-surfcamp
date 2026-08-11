@@ -5,7 +5,7 @@ import SiteFooter from '@/components/SiteFooter';
 import Photo from '@/components/Photo';
 import Reveal from '@/components/Reveal';
 import Marquee from '@/components/Marquee';
-import { FloatingBand, WaveDivider, Squiggle, Blob, SmokeRun, SmokeCorner } from '@/components/Deco';
+import { FloatingBand, WaveDivider, Floater } from '@/components/Deco';
 import {
   IconSwell, IconBolt, IconSun, IconLeaf, IconHeart, IconArrow,
   IconBoard, IconVan, IconCheers, IconSparkle, IconTick,
@@ -13,7 +13,18 @@ import {
 import { withTracking } from '@/lib/tracking';
 
 import surfCampLogo from '@/assets/surf-camp-logo.png';
-import smokeFrame from '@/assets/smoke-frame.png';
+
+import heroPhoto from '@/assets/photos/hero.jpg';
+import breakJackingHorse from '@/assets/photos/break-jacking-horse.jpg';
+import breakCemetery from '@/assets/photos/break-cemetery.jpg';
+import breakTuason from '@/assets/photos/break-tuason.jpg';
+import groupPhoto from '@/assets/photos/group.jpg';
+import vibesBoat from '@/assets/photos/vibes-boat.jpg';
+import vibesAdventure from '@/assets/photos/vibes-adventure.jpg';
+import vibesWake from '@/assets/photos/vibes-wake.jpg';
+import digsRooms from '@/assets/photos/digs-rooms.jpg';
+import digsFacilities from '@/assets/photos/digs-facilities.jpg';
+import digsFood from '@/assets/photos/digs-food.jpg';
 
 /**
  * Booking destinations on the main site.
@@ -34,7 +45,7 @@ const BOOK_URLS = {
 const PACKAGES = [
   {
     id: '7',
-    ribbon: '4-day package also available — see below',
+    ribbon: 'Prefer a shorter stay? There is a 4-day package too',
     level: 'Level 1 - 3',
     name: '7 Days / 6 Nights',
     price: '₱48,000',
@@ -107,6 +118,7 @@ const BREAKS = [
     label: 'For Beginners',
     name: 'Jacking Horse',
     copy: 'Gentle, accessible waves a short walk from the boardwalk. Designed for early wins.',
+    src: breakJackingHorse,
     tone: 'sea' as const,
     photo: 'Beginners on the whitewater at Jacking Horse, boardwalk behind',
   },
@@ -114,6 +126,7 @@ const BREAKS = [
     label: 'For Intermediates',
     name: 'Cemetery',
     copy: 'A forgiving right-hand reef break with open faces, giving you time to read the wave and work on speed.',
+    src: breakCemetery,
     tone: 'lilac' as const,
     photo: 'Surfer on an open right-hand face at Cemetery',
   },
@@ -121,34 +134,38 @@ const BREAKS = [
     label: 'For Stepping It Up',
     name: 'Tuason Point',
     copy: 'Faster, more powerful lefts for confident surfers looking for speed before taking on Cloud 9.',
+    src: breakTuason,
     tone: 'sea' as const,
     photo: 'Fast left-hander breaking over reef at Tuason Point',
   },
 ];
 
 const GOOD_VIBES = [
-  { name: 'Tri-Island Boat Party Tour', tag: 'Included', note: null, tone: 'sea' as const, photo: 'Boat party between Naked, Daku and Guyam islands' },
+  { name: 'Tri-Island Boat Party Tour', tag: 'Included', note: null, src: vibesBoat, tone: 'sea' as const, photo: 'Boat party between Naked, Daku and Guyam islands' },
   { name: 'Pacifico surf trip with Magpupungko', tag: 'Included', note: '7 days only', tone: 'lilac' as const, photo: 'Magpupungko rock pools at low tide' },
-  { name: 'Adventure Land Tour', tag: 'Add-on', note: 'Buy at camp', tone: 'sea' as const, photo: 'Palm-lined road on a motorbike island tour' },
-  { name: 'Siargao Wakeboarding', tag: 'Add-on', note: 'Buy at camp', tone: 'lilac' as const, photo: 'Wakeboarding on the lagoon cable park' },
+  { name: 'Adventure Land Tour', tag: 'Add-on', note: 'Buy at camp', src: vibesAdventure, tone: 'sea' as const, photo: 'Palm-lined road on a motorbike island tour' },
+  { name: 'Siargao Wakeboarding', tag: 'Add-on', note: 'Buy at camp', src: vibesWake, tone: 'lilac' as const, photo: 'Wakeboarding on the lagoon cable park' },
 ];
 
 const DIGS = [
   {
     name: 'Rooms',
     copy: 'At our surf camp, all the rooms have a rustic design, plenty of light, comfortable beds & modern facilities.',
+    src: digsRooms,
     tone: 'lilac' as const,
     photo: 'Rustic room with natural light and timber ceiling',
   },
   {
     name: 'Facilities',
     copy: 'Go for a dip in the pool, order a tropical cocktail in the bar, chill in the sun or get to know your fellow travellers.',
+    src: digsFacilities,
     tone: 'sea' as const,
     photo: 'Pool with travellers hanging out, palms behind',
   },
   {
     name: 'Food',
     copy: 'Enjoy a mix of local favs, delicious tacos, exotic flavours and western favourites. We serve breakfast and lunch every day at the camp.',
+    src: digsFood,
     tone: 'sea' as const,
     photo: 'Fresh poke-style bowl held by the pool',
   },
@@ -204,25 +221,22 @@ export default function Index() {
       {/* ═══════════════════ HERO ═══════════════════ */}
       <section className="halftone-frame grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
         <Photo
-          brief="Surfer sitting on their board in green-glass water, sun path behind — the poster shot"
+          src={heroPhoto}
+          brief="Surfer sitting on their board in green-glass water, sun path behind"
           tone="sea"
           loading="eager"
           hideLabel
           className="absolute inset-0 h-full w-full"
         />
 
-        {/* Light scrim to settle the photograph, then the supplied poster
-            squiggle (Surf Camp Squiggle.png) encasing the hero — the artwork
-            carries its own soft shadow, so no CSS shadow on top. Stretched to
-            the section like the poster stretches it around its photo. */}
+        {/* Light scrim to settle the photograph, then a loose frame of the
+            generated smoke elements hugging the edges, centre left open. */}
         <div className="absolute inset-0 bg-ink/25" />
-        <img
-          src={smokeFrame}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          className="pointer-events-none absolute inset-0 h-full w-full select-none object-fill"
-        />
+        <Floater name="smokeRun" className="absolute left-[3%] top-[7%] w-52 animate-drift-slow sm:w-64 md:w-80" rotate={-4} />
+        <Floater name="smokeRun" flip className="absolute right-[3%] top-[12%] hidden w-56 animate-drift sm:block md:w-80" rotate={3} />
+        <Floater name="smokeCorner" className="absolute left-[3%] bottom-[16%] w-20 animate-drift sm:w-28 md:w-36" rotate={-12} />
+        <Floater name="smokeCorner" flip className="absolute right-[2%] bottom-[24%] hidden w-24 animate-drift-slow sm:block md:w-36" rotate={8} />
+        <Floater name="smokeRun" className="absolute left-[6%] bottom-[5%] w-44 animate-drift sm:w-56 md:w-72" rotate={2} flip />
 
         <div className="relative z-20 mx-auto w-full max-w-4xl px-5 py-20 text-center sm:py-24">
           <Reveal>
@@ -270,7 +284,7 @@ export default function Index() {
 
       {/* ═══════════════════ WHAT TO EXPECT ═══════════════════ */}
       <section className="relative overflow-hidden bg-cream py-16 sm:py-20 md:py-28">
-        <Blob className="pointer-events-none absolute -left-16 top-10 hidden w-40 text-lilac/70 sm:block md:w-56" rotate={-12} />
+        <Floater name="palm" className="absolute -left-8 top-10 hidden w-32 animate-drift-slow sm:block md:w-44" rotate={-10} />
         <div className="relative mx-auto max-w-6xl px-5">
           <Reveal className="mb-10 max-w-3xl sm:mb-14">
             <Eyebrow>What to expect</Eyebrow>
@@ -317,6 +331,7 @@ export default function Index() {
               <Reveal as="article" key={b.name} delay={i * 90} className="group">
                 <div className="torn-edge overflow-hidden">
                   <Photo
+                    src={b.src}
                     brief={b.photo}
                     tone={b.tone}
                     className="h-56 w-full transition-transform duration-[600ms] ease-out group-hover:scale-[1.05] sm:h-64 md:h-72"
@@ -327,7 +342,7 @@ export default function Index() {
                 </p>
                 <h3 className="mt-2.5 font-display text-xl uppercase leading-tight sm:mt-3 sm:text-2xl">{b.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink/80">{b.copy}</p>
-                {i === 0 && <Squiggle className="mt-4 hidden w-24 text-lilac-deep md:block" />}
+                {i === 0 && <Floater name="wave" className="mt-4 hidden w-20 md:block" />}
               </Reveal>
             ))}
           </div>
@@ -336,7 +351,7 @@ export default function Index() {
 
       {/* ═══════════════════ PACKAGES ═══════════════════ */}
       <section id="packages" className="relative scroll-mt-20 bg-cream py-16 sm:py-20 md:py-28">
-        <SmokeCorner className="pointer-events-none absolute right-2 top-8 w-20 animate-drift text-lilac sm:right-5 sm:w-28 md:w-36" rotate={180} />
+        <Floater name="smokeCorner" className="absolute right-2 top-8 w-16 animate-drift sm:right-5 sm:w-20 md:w-28" rotate={12} />
         <div className="relative mx-auto max-w-6xl px-5">
           <Reveal className="mb-10 max-w-3xl sm:mb-14">
             <Eyebrow>Packages</Eyebrow>
@@ -439,6 +454,7 @@ export default function Index() {
             {GOOD_VIBES.map((v, i) => (
               <Reveal as="article" key={v.name} delay={i * 80} className="group relative aspect-[3/4] overflow-hidden rounded-2xl">
                 <Photo
+                  src={v.src}
                   brief={v.photo}
                   tone={v.tone}
                   className="absolute inset-0 h-full w-full transition-transform duration-[600ms] ease-out group-hover:scale-[1.06]"
@@ -459,14 +475,14 @@ export default function Index() {
 
       {/* ═══════════════════ IS THIS FOR ME? ═══════════════════ */}
       <section id="is-this-for-me" className="relative overflow-hidden bg-lilac/35 py-16 sm:py-20 md:py-28">
-        <SmokeRun flip className="pointer-events-none absolute -right-10 top-10 hidden w-72 animate-drift text-lilac sm:block md:w-96" />
+        <Floater name="smokeRun" flip className="absolute right-[3%] top-10 hidden w-56 animate-drift sm:block md:w-72" />
         <div className="relative mx-auto max-w-6xl px-5">
           <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
             <Reveal>
               <Eyebrow>Is this for me?</Eyebrow>
               <h2 className="bubble-type font-groovy text-[2rem] leading-[1.05] sm:text-4xl md:text-5xl">Short answer: yes</h2>
               <div className="torn-edge mt-6 overflow-hidden sm:mt-8">
-                <Photo brief="Group of guests laughing with boards after a session" tone="sea" className="h-60 w-full sm:h-72 md:h-80" />
+                <Photo src={groupPhoto} brief="Group of surf camp guests laughing with boards after a session" tone="sea" className="h-60 w-full sm:h-72 md:h-80" />
               </div>
             </Reveal>
 
@@ -520,7 +536,7 @@ export default function Index() {
                 delay={i * 90}
                 className="poster-shadow-sm overflow-hidden rounded-2xl border-2 border-ink bg-card transition-transform duration-300 hover:-translate-y-1"
               >
-                <Photo brief={d.photo} tone={d.tone} className="h-48 w-full sm:h-56" />
+                <Photo src={d.src} brief={d.photo} tone={d.tone} className="h-48 w-full sm:h-56" />
                 <div className="p-5 sm:p-6">
                   <h3 className="font-display text-lg uppercase leading-tight sm:text-xl">{d.name}</h3>
                   <p className="mt-2.5 text-sm leading-relaxed text-ink/80">{d.copy}</p>
@@ -533,8 +549,8 @@ export default function Index() {
 
       {/* ═══════════════════ CLOSING CTA ═══════════════════ */}
       <section className="grain relative overflow-hidden bg-sea-deep py-16 sm:py-20 md:py-28">
-        <SmokeRun className="absolute -left-10 top-4 w-72 text-lilac animate-drift-slow md:w-[30rem]" />
-        <SmokeRun flip className="absolute -right-12 bottom-2 w-64 text-lilac animate-drift md:w-96" />
+        <Floater name="smokeRun" className="absolute left-[3%] top-4 w-56 animate-drift-slow md:w-80" />
+        <Floater name="smokeRun" flip className="absolute right-[3%] bottom-2 w-48 animate-drift md:w-72" />
         <div className="relative z-10 mx-auto max-w-3xl px-5 text-center">
           <Reveal>
             <h2 className="bubble-type font-groovy text-[2rem] leading-[1.05] sm:text-4xl md:text-6xl">

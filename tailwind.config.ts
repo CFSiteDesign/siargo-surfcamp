@@ -18,8 +18,8 @@ export default {
         sans: ["Poppins", "sans-serif"],
         /* Section headings — our own chunky rounded caps */
         display: ["Siargao Block", "Poppins", "sans-serif"],
-        /* Hero + accents — our own liquid poster face */
-        groovy: ["Siargao Liquid", "Siargao Block", "sans-serif"],
+        /* Hero + accents — Charlie's Siargo Bubble Outline OTF (2026-08-11) */
+        groovy: ["Siargo Bubble", "Cherry Bomb One", "Siargao Block", "sans-serif"],
       },
       colors: {
         coral: "hsl(var(--coral))",
