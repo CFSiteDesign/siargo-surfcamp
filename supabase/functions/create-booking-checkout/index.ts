@@ -9,7 +9,7 @@ const BodySchema = z.object({
   package_name: z.string().min(1).max(200),
   guests: z.number().int().min(1).max(20).default(1),
   arrival_date: z.string().max(20).optional().nullable(),
-  amount: z.number().int().min(100).max(10_000_00), // unit price in cents
+  amount: z.number().int().min(100).max(20_000_000), // unit price in cents
   currency: z.string().length(3).default("usd"),
 });
 
