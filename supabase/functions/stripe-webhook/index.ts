@@ -115,23 +115,29 @@ async function sendConfirmationEmail(booking: any): Promise<boolean> {
       <p>See you in Siargao!</p>
     </div>`;
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const res = await fetch(`${GATEWAY_URL}/emails`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${lovableApiKey}`,
+      "X-Connection-Api-Key": resendApiKey,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      from,
+      from: FROM,
       to: [booking.guest_email],
+      reply_to: REPLY_TO,
       subject: "Booking confirmed — Siargao Surf Camp",
       html,
     }),
   });
 
   if (!res.ok) {
-    console.error("Resend error", res.status, await res.text());
+    console.error("Resend gateway error", res.status, await res.text());
     return false;
   }
   return true;
 }
+
 
 function escapeHtml(s: string) {
   return String(s).replace(/[&<>"']/g, (c) =>
