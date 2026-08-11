@@ -219,20 +219,12 @@ export default function Index() {
       {/* ═══════════════════ HERO ═══════════════════ */}
       <section className="halftone-frame grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
         <Photo
-          src={heroPhoto}
-          brief="Surfer sitting on their board in green-glass water, sun path behind"
+          src={heroPhoto.url}
+          brief="Group of surfers relaxing on their boards in warm turquoise water at golden hour"
           tone="sea"
           loading="eager"
           hideLabel
-          className="absolute inset-0 h-full w-full object-cover md:hidden"
-        />
-        <Photo
-          src={heroDesktopPhoto.url}
-          brief="Surfer sitting on their board in green-glass water, sun path behind"
-          tone="sea"
-          loading="eager"
-          hideLabel
-          className="absolute inset-0 hidden h-full w-full object-cover md:block md:object-[10%_center] lg:scale-[1.08]"
+          className="absolute inset-0 h-full w-full object-cover"
         />
 
         {/* Light scrim to settle the photograph, then a loose frame of the
