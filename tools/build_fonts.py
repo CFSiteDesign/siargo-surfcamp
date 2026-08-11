@@ -296,15 +296,25 @@ def build(family, style_r, wobble, xscale, out_stem):
         if 'A' <= ch <= 'Z':
             cmap[ord(ch.lower())] = name
 
+        contours = [[(round(x * xscale), round(y)) for x, y in c]
+                    for c in glyph_contours(spec, style_r, wobble)]
+
+        # Metrics from the drawn ink, not the skeleton box: shift each glyph to
+        # a fixed left sidebearing and derive the advance from its real width.
+        # Narrow glyphs (I, 1, punctuation) previously sat off-centre in a wide
+        # fixed advance, which opened holes mid-word ("SI ARGAO").
+        SB = int(46 * xscale)
+        minx = min(x for c in contours for x, _ in c)
+        maxx = max(x for c in contours for x, _ in c)
+        dx = SB - minx
         p = TTGlyphPen(None)
-        for contour in glyph_contours(spec, style_r, wobble):
-            pts = [(round(x * xscale), round(y)) for x, y in contour]
-            p.moveTo(pts[0])
-            for q in pts[1:]:
-                p.lineTo(q)
+        for c in contours:
+            p.moveTo((c[0][0] + dx, c[0][1]))
+            for q in c[1:]:
+                p.lineTo((q[0] + dx, q[1]))
             p.closePath()
         glyphs[name] = p.glyph()
-        metrics[name] = (int(WIDTHS.get(ch, DEFAULT_WIDTH) * xscale), 0)
+        metrics[name] = (SB + (maxx - minx) + SB, dx + minx)
 
     fb = FontBuilder(UPM, isTTF=True)
     fb.setupGlyphOrder(order)

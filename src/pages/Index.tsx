@@ -8,7 +8,7 @@ import Marquee from '@/components/Marquee';
 import { FloatingBand, WaveDivider, Floater } from '@/components/Deco';
 import {
   IconSwell, IconBolt, IconSun, IconLeaf, IconHeart, IconArrow,
-  IconBoard, IconVan, IconCheers, IconSparkle, IconTick,
+  IconSparkle, IconTick,
 } from '@/components/Icons';
 import { withTracking } from '@/lib/tracking';
 
@@ -20,6 +20,7 @@ import breakCemetery from '@/assets/photos/break-cemetery.jpg';
 import breakTuason from '@/assets/photos/break-tuason.jpg';
 import groupPhoto from '@/assets/photos/group.jpg';
 import vibesBoat from '@/assets/photos/vibes-boat.jpg';
+import vibesPacifico from '@/assets/photos/vibes-pacifico.jpg';
 import vibesAdventure from '@/assets/photos/vibes-adventure.jpg';
 import vibesWake from '@/assets/photos/vibes-wake.jpg';
 import digsRooms from '@/assets/photos/digs-rooms.jpg';
@@ -97,19 +98,16 @@ const EXPECT = [
     title: 'Local instruction',
     copy: 'Paired with an instructor based on how you ride — from gentle beach setups to open ocean reef breaks.',
     bg: 'bg-lilac',
-    Icon: IconBoard,
   },
   {
     title: 'Sorted gear',
     copy: 'Boards, zinc, and daily rides to the spot are set before you wake up.',
     bg: 'bg-blue/60',
-    Icon: IconVan,
   },
   {
     title: 'Social vibes',
     copy: 'Easygoing hostel setup — grab a drink by the pool, join group dinners, or do your own thing.',
     bg: 'bg-lilac/50',
-    Icon: IconCheers,
   },
 ];
 
@@ -142,7 +140,7 @@ const BREAKS = [
 
 const GOOD_VIBES = [
   { name: 'Tri-Island Boat Party Tour', tag: 'Included', note: null, src: vibesBoat, tone: 'sea' as const, photo: 'Boat party between Naked, Daku and Guyam islands' },
-  { name: 'Pacifico surf trip with Magpupungko', tag: 'Included', note: '7 days only', tone: 'lilac' as const, photo: 'Magpupungko rock pools at low tide' },
+  { name: 'Pacifico surf trip with Magpupungko', tag: 'Included', note: '7 days only', src: vibesPacifico, tone: 'lilac' as const, photo: 'Magpupungko rock pools at low tide' },
   { name: 'Adventure Land Tour', tag: 'Add-on', note: 'Buy at camp', src: vibesAdventure, tone: 'sea' as const, photo: 'Palm-lined road on a motorbike island tour' },
   { name: 'Siargao Wakeboarding', tag: 'Add-on', note: 'Buy at camp', src: vibesWake, tone: 'lilac' as const, photo: 'Wakeboarding on the lagoon cable park' },
 ];
@@ -232,11 +230,13 @@ export default function Index() {
         {/* Light scrim to settle the photograph, then a loose frame of the
             generated smoke elements hugging the edges, centre left open. */}
         <div className="absolute inset-0 bg-ink/25" />
-        <Floater name="smokeRun" className="absolute left-[3%] top-[7%] w-52 animate-drift-slow sm:w-64 md:w-80" rotate={-4} />
-        <Floater name="smokeRun" flip className="absolute right-[3%] top-[12%] hidden w-56 animate-drift sm:block md:w-80" rotate={3} />
-        <Floater name="smokeCorner" className="absolute left-[3%] bottom-[16%] w-20 animate-drift sm:w-28 md:w-36" rotate={-12} />
-        <Floater name="smokeCorner" flip className="absolute right-[2%] bottom-[24%] hidden w-24 animate-drift-slow sm:block md:w-36" rotate={8} />
-        <Floater name="smokeRun" className="absolute left-[6%] bottom-[5%] w-44 animate-drift sm:w-56 md:w-72" rotate={2} flip />
+        {/* Mirrored pairs, same size and offset each side, per Charlie. */}
+        <Floater name="smokeRun" className="absolute left-[3%] top-[8%] w-52 animate-drift-slow sm:w-64 md:w-80" />
+        <Floater name="smokeRun" flip className="absolute right-[3%] top-[8%] hidden w-52 animate-drift-slow sm:block sm:w-64 md:w-80" />
+        <Floater name="smokeCorner" className="absolute left-[3%] top-[42%] w-20 animate-drift sm:w-28 md:w-36" />
+        <Floater name="smokeCorner" flip className="absolute right-[3%] top-[42%] hidden w-20 animate-drift sm:block sm:w-28 md:w-36" />
+        <Floater name="smokeRun" flip className="absolute left-[3%] bottom-[6%] w-44 animate-drift sm:w-56 md:w-72" />
+        <Floater name="smokeRun" className="absolute right-[3%] bottom-[6%] hidden w-44 animate-drift sm:block sm:w-56 md:w-72" />
 
         <div className="relative z-20 mx-auto w-full max-w-4xl px-5 py-20 text-center sm:py-24">
           <Reveal>
@@ -295,13 +295,12 @@ export default function Index() {
           </Reveal>
 
           <div className="grid gap-5 sm:gap-6 md:grid-cols-3">
-            {EXPECT.map(({ title, copy, bg, Icon }, i) => (
+            {EXPECT.map(({ title, copy, bg }, i) => (
               <Reveal
                 key={title}
                 delay={i * 90}
                 className={`poster-shadow-sm rounded-2xl border-2 border-ink ${bg} p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7`}
               >
-                <Icon className="mb-4 h-9 w-9 text-ink sm:mb-5" />
                 <h3 className="font-display text-base uppercase tracking-wide sm:text-lg">{title}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-ink/80">{copy}</p>
               </Reveal>
