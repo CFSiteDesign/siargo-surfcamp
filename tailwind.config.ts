@@ -14,11 +14,29 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        /* Body — kept from the Mad Monkey house stack */
+        sans: ["Poppins", "sans-serif"],
+        /* Section headings — our own chunky rounded caps */
+        display: ["Siargao Block", "Poppins", "sans-serif"],
+        /* Hero + accents — our own liquid poster face */
+        groovy: ["Siargao Liquid", "Siargao Block", "sans-serif"],
       },
       colors: {
+        coral: "hsl(var(--coral))",
+        yellow: "hsl(var(--yellow))",
+        pink: "hsl(var(--pink))",
+        blue: "hsl(var(--blue))",
+        cream: "hsl(var(--cream))",
+        ink: "hsl(var(--ink))",
+        lilac: {
+          DEFAULT: "hsl(var(--lilac))",
+          deep: "hsl(var(--lilac-deep))",
+        },
+        sea: {
+          DEFAULT: "hsl(var(--sea))",
+          deep: "hsl(var(--sea-deep))",
+        },
         border: "hsl(var(--border))",
-        divider: "hsl(var(--divider))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -51,10 +69,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        cranky: {
-          DEFAULT: "hsl(var(--cranky))",
-          foreground: "hsl(var(--cranky-foreground))",
-        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -80,28 +94,38 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "float": {
-          "0%, 100%": { transform: "translateY(0) rotate(var(--float-rotate, 3deg))" },
-          "50%": { transform: "translateY(-20px) rotate(var(--float-rotate, 3deg))" },
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(-8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
-        "float-reverse": {
-          "0%, 100%": { transform: "translateY(0) rotate(var(--float-rotate, -6deg))" },
-          "50%": { transform: "translateY(20px) rotate(var(--float-rotate, -6deg))" },
+        /* Slow vertical drift for the SVG shapes floating between sections */
+        drift: {
+          "0%, 100%": { transform: "translateY(0) rotate(var(--drift-rot, 0deg))" },
+          "50%": { transform: "translateY(-18px) rotate(var(--drift-rot, 0deg))" },
         },
-        "falling-heart": {
-          "0%": { transform: "translateY(-10vh) rotate(0deg)", opacity: "0.7" },
-          "50%": { opacity: "0.5" },
-          "100%": { transform: "translateY(110vh) rotate(360deg)", opacity: "0" },
+        "drift-slow": {
+          "0%, 100%": { transform: "translateY(0) rotate(var(--drift-rot, 0deg))" },
+          "50%": { transform: "translateY(-28px) rotate(var(--drift-rot, 0deg))" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "slide-up": {
+          from: { opacity: "0", transform: "translateY(100%)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "float": "float 4s ease-in-out infinite",
-        "float-reverse": "float-reverse 5s ease-in-out infinite",
-        "falling-heart": "falling-heart linear infinite",
+        "fade-in": "fade-in 0.3s ease-out",
+        drift: "drift 7s ease-in-out infinite",
+        "drift-slow": "drift-slow 11s ease-in-out infinite",
+        "spin-slow": "spin-slow 24s linear infinite",
+        "slide-up": "slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;

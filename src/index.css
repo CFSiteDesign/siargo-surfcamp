@@ -1,38 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Our own display faces ─────────────────────────────────────────────────
+   Drawn for this page and compiled by tools/build_fonts.py — see that file for
+   the construction. Self-hosted, so there is no third-party font request and
+   nothing to go missing. Liquid is the poster face; Block is its calmer sibling
+   for section headings. */
+@font-face {
+  font-family: 'Siargao Liquid';
+  src: url('./assets/fonts/SiargaoLiquid.woff') format('woff'),
+       url('./assets/fonts/SiargaoLiquid.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Siargao Block';
+  src: url('./assets/fonts/SiargaoBlock.woff') format('woff'),
+       url('./assets/fonts/SiargaoBlock.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* ── Approved palette (exact hex → HSL) ───────────────────────────────
+       #FC8C5C coral · #F1D46C yellow · #FBCEEA pink · #ABCFDF blue · #FBF6F3 cream */
+    --coral: 18 96% 67%;
+    --yellow: 47 83% 68%;
+    --pink: 323 85% 90%;
+    --blue: 198 45% 77%;
+    --cream: 23 50% 97%;
+    --ink: 30 12% 12%;
+
+    /* ── Poster additions (lilac Siargao poster, 2026-08-11) ──────────────
+       The lilac pair carries the identity now: --lilac for the big shapes and
+       bubble type, --lilac-deep where small text needs contrast on cream. The
+       sea pair stands in for the ocean photography until real shots land. */
+    --lilac: 280 63% 86%;       /* #E3C6F2 */
+    --lilac-deep: 274 43% 59%;  /* #9D6BC4 */
+    --sea: 156 21% 53%;         /* #6FA08C */
+    --sea-deep: 160 27% 33%;    /* #3E6B5C */
+
+    --background: var(--cream);
+    --foreground: var(--ink);
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: var(--ink);
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: var(--ink);
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--coral);
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: var(--yellow);
+    --secondary-foreground: var(--ink);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 24 30% 93%;
+    --muted-foreground: 30 8% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: var(--pink);
+    --accent-foreground: var(--ink);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 24 22% 88%;
+    --input: 24 22% 88%;
+    --ring: var(--coral);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -43,44 +86,6 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
 }
 
 @layer base {
@@ -89,6 +94,119 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Both display faces ship a single weight; stop the browser synthesising a
+     bold and smearing the outlines. */
+  .font-display,
+  .font-groovy {
+    font-weight: 400;
+  }
+}
+
+@layer components {
+  /* ── Film grain ───────────────────────────────────────────────────────
+     The poster look is 80% colour grade + grain. Applied as a fixed overlay so
+     the texture stays put while the page scrolls, exactly like printed stock. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0.14;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+
+  /* Sun-bleached grade for photography — warms highlights, lifts the blacks so
+     nothing reads as pure digital black against the cream paper. */
+  .film-grade {
+    filter: saturate(0.88) contrast(0.94) sepia(0.14) brightness(1.04);
+  }
+
+  /* ── Torn paper edge ──────────────────────────────────────────────────
+     Ragged mask for collage panels, so photos sit on the page like cut-outs
+     rather than rounded rectangles. */
+  .torn-edge {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath d='M3,8 Q8,3 13,7 Q18,11 23,6 Q28,2 33,6 Q38,10 43,5 Q48,1 53,5 Q58,9 63,4 Q68,0 73,4 Q78,8 83,3 Q88,0 93,4 Q98,8 103,3 Q108,0 113,4 Q118,8 123,3 Q128,0 133,4 Q138,8 143,3 Q148,0 153,4 Q158,8 163,3 Q168,0 173,4 Q178,8 183,3 Q188,0 193,4 Q198,8 200,6 L200,190 Q195,194 190,191 Q185,188 180,192 Q175,196 170,193 Q165,190 160,194 Q155,198 150,195 Q145,192 140,196 Q135,200 130,197 Q125,194 120,198 Q115,195 110,192 Q105,196 100,200 Q95,197 90,194 Q85,198 80,195 Q75,192 70,196 Q65,200 60,197 Q55,194 50,198 Q45,195 40,192 Q35,196 30,200 Q25,197 20,194 Q15,198 10,195 Q5,192 0,196 Z' fill='white'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath d='M3,8 Q8,3 13,7 Q18,11 23,6 Q28,2 33,6 Q38,10 43,5 Q48,1 53,5 Q58,9 63,4 Q68,0 73,4 Q78,8 83,3 Q88,0 93,4 Q98,8 103,3 Q108,0 113,4 Q118,8 123,3 Q128,0 133,4 Q138,8 143,3 Q148,0 153,4 Q158,8 163,3 Q168,0 173,4 Q178,8 183,3 Q188,0 193,4 Q198,8 200,6 L200,190 Q195,194 190,191 Q185,188 180,192 Q175,196 170,193 Q165,190 160,194 Q155,198 150,195 Q145,192 140,196 Q135,200 130,197 Q125,194 120,198 Q115,195 110,192 Q105,196 100,200 Q95,197 90,194 Q85,198 80,195 Q75,192 70,196 Q65,200 60,197 Q55,194 50,198 Q45,195 40,192 Q35,196 30,200 Q25,197 20,194 Q15,198 10,195 Q5,192 0,196 Z' fill='white'/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  /* Hard poster shadow — offset flat block, no blur, like screen-printed stock. */
+  .poster-shadow {
+    box-shadow: 8px 8px 0 hsl(var(--ink));
+  }
+
+  .poster-shadow-sm {
+    box-shadow: 4px 4px 0 hsl(var(--ink));
+  }
+
+  .text-stroke-ink {
+    -webkit-text-stroke: 2px hsl(var(--ink));
+    paint-order: stroke fill;
+  }
+
+  /* ── Poster bubble type ───────────────────────────────────────────────
+     The image-2 treatment: lilac bubbles, a fine cream keyline, and a soft
+     drop below. paint-order keeps the keyline outside the fill so the fine
+     stroke doesn't eat the letterform. */
+  .bubble-type {
+    color: hsl(var(--lilac));
+    -webkit-text-stroke: 2.5px hsl(var(--cream));
+    paint-order: stroke fill;
+    text-shadow: 0.045em 0.06em 0.035em hsl(var(--ink) / 0.38);
+  }
+
+  /* Halftone dot border, fading inward from every edge like the poster's
+     print fringe. A mask keeps the dots to the outer band only. */
+  .halftone-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 25;
+    background-image: radial-gradient(circle, hsl(var(--ink) / 0.55) 1.1px, transparent 1.6px);
+    background-size: 7px 7px;
+    -webkit-mask-image: linear-gradient(to right, black 0, transparent 26px, transparent calc(100% - 26px), black 100%),
+      linear-gradient(to bottom, black 0, transparent 26px, transparent calc(100% - 26px), black 100%);
+    mask-image: linear-gradient(to right, black 0, transparent 26px, transparent calc(100% - 26px), black 100%),
+      linear-gradient(to bottom, black 0, transparent 26px, transparent calc(100% - 26px), black 100%);
+  }
+}
+
+/* Marquee track: the phrase list is rendered twice, so -50% lands the second
+   copy exactly where the first began. Defined here rather than in the Tailwind
+   config because the duration is set per-instance inline. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  /* Opt out of every ambient animation for motion-sensitive visitors. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-drift,
+    .animate-drift-slow,
+    .animate-spin-slow,
+    [style*='marquee'] {
+      animation: none !important;
+    }
+  }
+
+  /* Respect the iOS home-indicator inset under the sticky mobile bar. */
+  .pb-safe {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
   }
 }
