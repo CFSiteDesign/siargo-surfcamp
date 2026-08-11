@@ -82,18 +82,23 @@ Deno.serve(async (req) => {
   }
 });
 
+const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
+const FROM = "Mad Monkey Siargao <bookings@siargo.surfcamp.madmonkeyhostels.com>";
+const REPLY_TO = "cs@madmonkeyhostels.co";
+
 // deno-lint-ignore no-explicit-any
 async function sendConfirmationEmail(booking: any): Promise<boolean> {
-  const apiKey = Deno.env.get("RESEND_API_KEY");
-  const from = Deno.env.get("BOOKING_EMAIL_FROM") ?? "Mad Monkey <onboarding@resend.dev>";
-  if (!apiKey) {
-    console.log("RESEND_API_KEY not set — skipping confirmation email for booking", booking.id);
+  const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+  const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  if (!lovableApiKey || !resendApiKey) {
+    console.error("Resend connector env vars missing — skipping email for booking", booking.id);
     return false;
   }
 
   const amount = booking.amount_total
     ? `${(booking.amount_total / 100).toFixed(2)} ${String(booking.currency).toUpperCase()}`
     : "";
+
 
   const html = `
     <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;color:#111">
