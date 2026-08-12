@@ -208,7 +208,7 @@ export default function Index() {
       <SiteHeader />
 
       {/* ═══════════════════ HERO ═══════════════════ */}
-      <section className="halftone-frame grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
+      <section className="grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
         <Photo
           src={heroPhoto}
           brief="Group of surfers relaxing on their boards in warm turquoise water at golden hour"
