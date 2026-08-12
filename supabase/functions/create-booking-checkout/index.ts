@@ -8,7 +8,13 @@ const BodySchema = z.object({
   guest_email: z.string().email().max(255),
   package_name: z.string().min(1).max(200),
   guests: z.number().int().min(1).max(20).default(1),
-  arrival_date: z.string().max(20).optional().nullable(),
+  // Trips start on Saturdays only — enforced here as well as in the UI.
+  arrival_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .refine((s) => new Date(`${s}T00:00:00Z`).getUTCDay() === 6, {
+      message: "Arrival date must be a Saturday",
+    }),
   amount: z.number().int().min(100).max(20_000_000), // unit price in cents
   currency: z.string().length(3).default("usd"),
 });

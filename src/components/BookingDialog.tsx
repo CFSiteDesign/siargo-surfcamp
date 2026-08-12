@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
 import { supabase } from '@/integrations/supabase/client';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger,
 } from '@/components/ui/dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
@@ -16,6 +19,9 @@ type Props = {
   children: React.ReactNode;
 };
 
+/** Trips start on Saturdays only — every other day is blocked in the picker. */
+const isSaturday = (d: Date) => d.getDay() === 6;
+
 /**
  * Collects the minimum guest details and hands off to Stripe Checkout.
  * All pricing and session creation happens server-side in the
@@ -26,12 +32,17 @@ export default function BookingDialog({
 }: Props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ guest_name: '', guest_email: '', guests: 1, arrival_date: '' });
+  const [date, setDate] = useState<Date | undefined>();
+  const [form, setForm] = useState({ guest_name: '', guest_email: '', guests: 1 });
 
   const set = (k: string, v: string | number) => setForm(f => ({ ...f, [k]: v }));
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!date || !isSaturday(date)) {
+      toast.error('Trips start on Saturdays — please pick a Saturday arrival date.');
+      return;
+    }
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('create-booking-checkout', {
@@ -40,7 +51,7 @@ export default function BookingDialog({
           guest_email: form.guest_email.trim(),
           package_name: packageName,
           guests: Number(form.guests) || 1,
-          arrival_date: form.arrival_date || null,
+          arrival_date: format(date, 'yyyy-MM-dd'),
           amount,
           currency,
         },
@@ -68,6 +79,11 @@ export default function BookingDialog({
           </DialogDescription>
         </DialogHeader>
 
+        {/* Saturday-only rule, stated before anyone touches the calendar. */}
+        <p className="rounded-xl border-2 border-ink bg-yellow px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.08em] text-ink">
+          Trips start on Saturdays only
+        </p>
+
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="guest_name">Full name</Label>
@@ -86,9 +102,32 @@ export default function BookingDialog({
                 onChange={e => set('guests', Number(e.target.value))} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="arrival_date">Arrival date</Label>
-              <Input id="arrival_date" type="date" value={form.arrival_date}
-                onChange={e => set('arrival_date', e.target.value)} />
+              <Label>Arrival (Saturday)</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 text-left text-sm"
+                  >
+                    {date ? format(date, 'EEE d MMM yyyy') : 'Pick a Saturday'}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto border-2 border-ink bg-cream p-0" align="start">
+                  <p className="border-b-2 border-ink px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.08em]">
+                    Saturdays only — all other days are unavailable
+                  </p>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0)) || !isSaturday(d)}
+                    modifiers={{ saturday: isSaturday }}
+                    modifiersClassNames={{ saturday: 'font-bold ring-1 ring-ink/40' }}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
