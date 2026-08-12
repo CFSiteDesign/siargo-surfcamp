@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import Photo from '@/components/Photo';
 import Reveal from '@/components/Reveal';
 import Marquee from '@/components/Marquee';
@@ -14,7 +15,7 @@ import BookingDialog from '@/components/BookingDialog';
 
 import surfCampLogo from '@/assets/surf-camp-logo.png';
 
-import heroPhoto from '@/assets/photos/hero.jpg.asset.json';
+import heroPhoto from '@/assets/photos/hero.jpg';
 import breakJackingHorse from '@/assets/photos/break-jacking-horse.jpg';
 import breakCemetery from '@/assets/photos/break-cemetery.jpg';
 import breakTuason from '@/assets/photos/break-tuason.jpg';
@@ -209,7 +210,7 @@ export default function Index() {
       {/* ═══════════════════ HERO ═══════════════════ */}
       <section className="halftone-frame grain relative flex min-h-[88svh] items-center justify-center overflow-hidden bg-sea md:min-h-[92vh]">
         <Photo
-          src={heroPhoto.url}
+          src={heroPhoto}
           brief="Group of surfers relaxing on their boards in warm turquoise water at golden hour"
           tone="sea"
           loading="eager"
@@ -558,6 +559,7 @@ export default function Index() {
         </div>
       </section>
 
+      <WhatsAppButton />
       <SiteFooter />
 
       {/* ═══════════════════ STICKY MOBILE BOOKING BAR ═══════════════════
