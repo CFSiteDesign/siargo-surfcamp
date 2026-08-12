@@ -54,7 +54,10 @@ Deno.serve(async (req) => {
         .maybeSingle();
 
       if (booking && !booking.confirmation_email_sent) {
-        const sent = await sendConfirmationEmail(booking);
+        const [sent] = await Promise.all([
+          sendConfirmationEmail(booking),
+          sendTeamNotification(booking),
+        ]);
         if (sent) {
           await admin.from("bookings").update({ confirmation_email_sent: true }).eq("id", booking.id);
         }
