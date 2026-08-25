@@ -29,8 +29,8 @@ import digsFacilities from '@/assets/photos/digs-facilities.jpg';
 import digsFood from '@/assets/photos/digs-food.jpg';
 
 /**
- * Prices are the GM's listing prices, confirmed by Lexie 2026-08-11. PHP is the
- * fixed cost and leads; the USD figure is approximate and labelled as such.
+ * Prices are the GM's listing prices, updated 2026-08-25. PHP is the fixed
+ * cost and leads; the USD figure is approximate and labelled as such.
  */
 const PACKAGES = [
   {
@@ -38,9 +38,9 @@ const PACKAGES = [
     ribbon: 'Prefer a shorter stay? There is a 4-day package too',
     level: 'Level 1 - 3',
     name: '7 Days / 6 Nights',
-    price: '₱48,000',
-    amount: 4_800_000,
-    usd: 'approx. $790 USD',
+    price: '₱33,000',
+    amount: 3_300_000,
+    usd: 'approx. $535 USD',
     per: 'per person',
     pitch: 'The full island run. Longest water time, the Pacifico trip, and every night sorted.',
     unique: [
@@ -65,9 +65,9 @@ const PACKAGES = [
     ribbon: null,
     level: 'Level 1 - 3',
     name: '4 Days / 3 Nights',
-    price: '₱28,000',
-    amount: 2_800_000,
-    usd: 'approx. $460 USD',
+    price: '₱24,000',
+    amount: 2_400_000,
+    usd: 'approx. $388 USD',
     per: 'per person',
     pitch: 'Short stay, same standard. Enough water time to stand up and stay up.',
     unique: ['6 hours of surf coaching', 'Phone video analysis'],
