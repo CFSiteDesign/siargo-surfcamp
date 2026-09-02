@@ -95,6 +95,7 @@ const TEAM_RECIPIENTS = [
   "reden@madmonkeyhostels.com",
   "adel@madmonkeyhostels.com",
   "mark.tabugo@madmonkeyhostels.com",
+  "cs@madonkeyhostels.com",
 ];
 
 async function sendResend(payload: Record<string, unknown>, label: string): Promise<boolean> {
