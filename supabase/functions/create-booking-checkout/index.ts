@@ -15,9 +15,25 @@ const BodySchema = z.object({
     .refine((s) => new Date(`${s}T00:00:00Z`).getUTCDay() === 6, {
       message: "Arrival date must be a Saturday",
     }),
-  amount: z.number().int().min(100).max(20_000_000), // unit price in cents
-  currency: z.string().length(3).default("usd"),
+  // The browser also sends `amount` and `currency`. They are deliberately not in
+  // this schema (zod strips them): the price charged comes from PACKAGES below.
 });
+
+/**
+ * What we actually charge, per person, in centavos, keyed by tour length.
+ * Keep in step with PACKAGES in src/pages/Index.tsx, which only displays prices.
+ */
+const PACKAGES: Record<string, { name: string; amount: number }> = {
+  "7": { name: "Siargao Surf Camp — 7 Days / 6 Nights", amount: 3_300_000 },
+  "4": { name: "Siargao Surf Camp — 4 Days / 3 Nights", amount: 2_400_000 },
+};
+const CURRENCY = "php";
+
+/** Tour length read off the package name, e.g. "Siargao Surf Camp — 7 Days / 6 Nights" → "7". */
+function packageFor(packageName: string) {
+  const m = packageName.match(/(\d+)\s*[-\s]?\s*day/i);
+  return m ? PACKAGES[m[1]] : undefined;
+}
 
 const SITE_URL = "https://madmonkeyhostels.com/philippines/siargao-surf-camp";
 
@@ -34,6 +50,14 @@ Deno.serve(async (req) => {
     }
     const b = parsed.data;
 
+    const pkg = packageFor(b.package_name);
+    if (!pkg) {
+      return new Response(JSON.stringify({ error: { package_name: ["Unknown package"] } }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
       apiVersion: "2025-08-27.basil",
     });
@@ -49,11 +73,11 @@ Deno.serve(async (req) => {
       .insert({
         guest_name: b.guest_name,
         guest_email: b.guest_email,
-        package_name: b.package_name,
+        package_name: pkg.name,
         guests: b.guests,
         arrival_date: b.arrival_date || null,
-        amount_total: b.amount * b.guests,
-        currency: b.currency.toLowerCase(),
+        amount_total: pkg.amount * b.guests,
+        currency: CURRENCY,
         status: "pending",
       })
       .select("id")
@@ -70,12 +94,14 @@ Deno.serve(async (req) => {
         {
           quantity: b.guests,
           price_data: {
-            currency: b.currency.toLowerCase(),
-            unit_amount: b.amount,
-            product_data: { name: b.package_name },
+            currency: CURRENCY,
+            unit_amount: pkg.amount,
+            product_data: { name: pkg.name },
           },
         },
       ],
+      // Shows the "Add promotion code" field; codes are created in the Stripe dashboard.
+      allow_promotion_codes: true,
       metadata: { booking_id: booking.id },
       payment_intent_data: { metadata: { booking_id: booking.id } },
       success_url: `${origin}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
